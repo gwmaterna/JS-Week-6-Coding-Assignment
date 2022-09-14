@@ -30,15 +30,16 @@ class Player {
     } 
       
 }
-
+let playerOneCards = [];
+let playerTwoCards = [];
 
 
 class Deck {
     constructor() {
         this.cards = [];  //  After we create the deck, we want the cards to go into an array.  
                           //  Which will be randomized later...?
-        this.playerOneCards = [];
-        this.playerTwoCards = [];                  
+        // this.playerOneCards = [];
+        // this.playerTwoCards = [];                  
         }
                         
     createDeck() {
@@ -71,9 +72,11 @@ class Deck {
         for(let i = 0; i < suits.length; i++) {
             for(let j = 0; j < names.length; j++) {
                 this.cards.push(new Card(suits[i], names[j], values[j]));
-            }
+            }  // Above is for loops to iterate thru each card, and the 'new Card' 
+                //  attaching the suit, name, and value to each
         }           
-    console.log(this.cards);       
+    console.log(this.cards);  // Printing all cards to the console log, ensuring that the 
+                                //  suits, names, and values are attached to each   
     }
     shuffleDeck() {
         for (let i = 0; i < 52; i++) {
@@ -91,33 +94,33 @@ class Deck {
     
     dealDeck() {  //  We want to deal half a deck (26 cards) to each player
 
-        const halfDeck = Math.ceil(this.cards.length / 2);
-        this.playerOneCards = this.cards.slice(0, halfDeck);
-        console.log('Player One Deck: ' , this.playerOneCards);
-        this.playerTwoCards = this.cards.slice(halfDeck);
-        console.log('Player Two Deck: ' , this.playerTwoCards);
+        const halfDeck = Math.ceil(this.cards.length / 2);  
+        //  math.ceil rounds up to the nearest integer
+        playerOneCards = this.cards.slice(0, halfDeck);
+        //  Above gives player1 the cards from the 0 index to the 25 index of the 
+        //   shuffled deck, below gives index 26 thru 51 to player2
+        console.log('Player One Deck: ' , playerOneCards);
+        playerTwoCards = this.cards.slice(halfDeck);
+        console.log('Player Two Deck: ' , playerTwoCards);
 
-        for (let i = 0; i < this.playerOneCards.length; i++) {
-            console.log(this.playerOneCards[i].value);
+        for (let i = 0; i < playerOneCards.length; i++) {
+            console.log(playerOneCards[i].value);
         }
-        for (let i = 0; i < this.playerTwoCards.length; i++) {
-            console.log(this.playerTwoCards[i].value);
+        for (let i = 0; i < playerTwoCards.length; i++) {
+            console.log(playerTwoCards[i].value);
         }
-    }
+    }   //  The above for loops iterates thru each players cards and prints the values 
+        //   of each to the console log 
     
 
 
 
 }
 class War {
-    constructor(playerOneScore, playerTwoScore) {
-        this.playerOneScore = playerOneScore;
-        this.playerTwoScore = playerTwoScore;
-        // this.cards = [];
-        // this.playerOneCards = [];
-        // this.playerTwoCards = []; 
-        // this.player1 = player1;
-        // this.player2 = player2;
+    constructor() {
+        this.playerOneScore = 0;  //  Ensuring the score begins at 0 for each new game
+        this.playerTwoScore = 0;
+        
         
     }
     
@@ -127,26 +130,34 @@ class War {
         let player1;
         let player2;
 
-        // freshDeck.createDeck();
-
-        // // console.log(freshDeck.cards);
-        // freshDeck.shuffleDeck();
-        // freshDeck.dealDeck();   
+        //  Below the nested if/else statements comparing the value of the player cards in each 
+        //   round, printing those cards and the round's winner to the console log
         
-        for (let i = 0; i < 26; i++) {
-            if (playerOneCards[i].value > player2.cards[i].value) {
+        for (let i = 0; i < 26; i++) {  // A for loop to take us thru 26 rounds of the game
+            if (playerOneCards[i].value > playerTwoCards[i].value) {
+                console.log(playerOneCards[i]);
+                console.log(playerTwoCards[i]);
                 console.log(`Player1 wins round ${i + 1}`);
-                playerOneScore++;
+                this.playerOneScore++;  //  Adding up the score for each round to the individual players
                 
             }  else if 
-                (player1.cards[i].value < player2.cards[i].value) {
+                (playerOneCards[i].value < playerTwoCards[i].value) {
+                    console.log(playerOneCards[i]);   
+                 console.log(playerTwoCards[i]);   
                  console.log(`Player2 wins round ${i + 1}`);
-                 playerTwoScore++;   
+                 this.playerTwoScore++;   
             }  else {
+                console.log(playerOneCards[i]);
+                console.log(playerTwoCards[i]);
                 console.log(`Round ${i + 1} is a tie`);
 
             }
         }
+
+        //  After the 26 rounds are complete, comparing the total scores and displaying the winner
+
+        console.log(`Player 1 score =`, this.playerOneScore); // Displaying each player's score
+        console.log(`Player 2 score =`, this.playerTwoScore);
 
         if (this.playerOneScore > this.playerTwoScore) {
             console.log('Player1 wins!');
@@ -161,7 +172,7 @@ class War {
 
     }
 }
-
+//  Below we call the methods to play the game, and start a new game.
 
 const freshDeck = new Deck();
 freshDeck.createDeck();
@@ -178,19 +189,4 @@ newWar.playWar();
 
 
 
-// function shuffle(array) {
-//     let currentIndex = array.length,  randomIndex;
-  
-//     // While there remain elements to shuffle.
-//     while (currentIndex != 0) {
-  
-//       // Pick a remaining element.
-//       randomIndex = Math.floor(Math.random() * currentIndex);
-//       currentIndex--;
-  
-//       // And swap it with the current element.
-//       [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-//     }
-  
-//     return array;
-//   }
+
